@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->enum('status', ['In productie', 'Verzonden', 'Geweigerd']);
+            $table->text('status_description')->nullable();
             $table->timestamps();
         });
     }
