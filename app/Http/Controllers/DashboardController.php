@@ -13,7 +13,12 @@ class DashboardController extends Controller
         // Haal de ingelogde gebruiker op
         $user = Auth::user();
 
-        // Haal het profiel van de ingelogde gebruiker op
+        // Controleer of er een gebruiker is ingelogd
+        if (!$user) {
+            return redirect('/login');
+        }
+
+        // Haal het profiel op (of geef null als het niet bestaat)
         $profile = Profile::where('user_id', $user->id)->first();
 
         // Stuur de data naar de view

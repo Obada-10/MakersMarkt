@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
 // Zorg ervoor dat ingelogde gebruikers niet naar de login- en registratiepagina kunnen gaan
 Route::middleware(['guest'])->group(function () {
@@ -15,8 +16,5 @@ Route::middleware(['guest'])->group(function () {
 // Route voor uitloggen
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-// Beveiligde route voor het dashboard
-Route::get('dashboard', function () {
-    return view('dashboards.dashboard'); // Zorg ervoor dat je een dashboardpagina hebt
-})->middleware('auth'); // Alleen toegankelijk voor ingelogde gebruikers
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
