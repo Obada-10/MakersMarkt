@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             $table->enum('category', ['Sieraden', 'Keramiek', 'Textiel', 'Kunst']);
-            $table->string('material');
+            $table->enum('material', ['Brons', 'Zilver', 'Goud']);
             $table->integer('production_time');
-            $table->string('complexity');
-            $table->string('durability');
+            $table->enum('complexity', ['Eenvoudig', 'Gemiddeld', 'Complex']);
+            $table->enum('durability', ['Kortdurend', 'Gemiddeld', 'Langdurig']);
             $table->text('unique_features')->nullable();
             $table->decimal('price', 10, 2);
             $table->timestamps();
