@@ -17,7 +17,7 @@ class ProductsTableSeeder extends Seeder
                 'category' => 'Sieraden',
                 'material' => 'Zilver',
                 'production_time' => 7,
-                'complexity' => 'Medium',
+                'complexity' => 'Gemiddeld',
                 'durability' => 'Langdurig',
                 'unique_features' => 'Handgegraveerd',
                 'price' => 99.99,
@@ -25,5 +25,7 @@ class ProductsTableSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+
+        Product::factory()->count(10)->create();
     }
 }
