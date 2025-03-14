@@ -9,6 +9,11 @@
     <h1>Welkom, {{ $user->name }}!</h1>
     <p>Je bent succesvol ingelogd op je dashboard.</p>
 
+    <div class="links">
+        <h5>Links</h5>
+        <a href="{{route('products.index')}}">Products</a>
+    </div>
+
     @if($profile)
         <h2>Jouw profielgegevens:</h2>
         <p><strong>Naam:</strong> {{ $profile->name }}</p>
