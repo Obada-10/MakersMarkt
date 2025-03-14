@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Products;
 
 // Zorg ervoor dat ingelogde gebruikers niet naar de login- en registratiepagina kunnen gaan
 Route::middleware(['guest'])->group(function () {
@@ -18,3 +19,4 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
+Route::resource('products', Products::class);
