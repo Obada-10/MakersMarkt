@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use App\Models\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -33,14 +34,32 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => ['required', 'in:maker,koper'],
         ]);
+
+
+
+
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role, // Hier slaan we de rol op
         ]);
 
+
+
+
+
+        Profile::create([
+            'user_id' => $user->id,
+            'name' => $user->name, 
+            'bio' => $user->role === 'maker' ? 'Ik ben een maker en deel mijn creaties!' : 'Ik ben een koper en zoek unieke producten.',
+            'profile_picture' => $user->role === 'maker' ? 'default_maker.jpg' : 'default_koper.jpg',
+        ]);
+
+        
         event(new Registered($user));
 
         Auth::login($user);

@@ -10,6 +10,25 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
+
+                    <div class="mt-6">
+                        <h3 class="text-lg font-semibold">Productbeheer</h3>
+                        <ul class="mt-2 space-y-2">
+                            <li>
+                                <a href="{{ route('products.index') }}" 
+                                   class="block bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition">
+                                    📦 Bekijk alle producten
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('products.create') }}" 
+                                   class="block bg-green-500 text-white p-3 rounded-md hover:bg-green-600 transition">
+                                    ➕ Nieuw product toevoegen
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
