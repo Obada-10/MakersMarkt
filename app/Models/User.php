@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    public function getProfilePhotoUrlAttribute()
+{
+    return $this->profile ? asset('storage/' . $this->profile->profile_picture) : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&color=7F9CF5&background=EBF4FF';
+}
 }
