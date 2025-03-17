@@ -1,4 +1,4 @@
-@extends('component.layouts')
+@extends('components.layout')
 
 @section('content')
     <div class="flex justify-between items-center mb-4">
@@ -53,7 +53,19 @@
                         @method('DELETE')
                         <button type="submit" onclick="return confirm('Verwijderen?')" class="text-red-500 hover:underline">Verwijderen</button>
                     </form>
-                @endif        
+                @endif  
+                
+                @if ($product->reports()->where('user_id', auth()->id())->exists())
+                    <p>Product geroporteerd</p>
+                @else
+                    <form action="{{ route('reports.store', $product->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" onclick="return confirm('Product reportern?')" class="text-red-800 font-bold hover:underline">
+                        |    Report
+                        </button>
+                    </form> 
+                @endif  
+                     
             </li>
             <hr>
         @endforeach
