@@ -1,36 +1,26 @@
+<!-- resources/views/layouts/app.blade.php -->
+
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    @vite('resources/css/app.css') <!-- Als je Vite gebruikt, anders wijzig dit naar je assets -->
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen">
+        <header class="bg-blue-500 p-4 text-white">
+            <h1 class="text-2xl">Admin Dashboard</h1>
+        </header>
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <main>
+            @yield('content') <!-- Hier wordt de inhoud van de pagina weergegeven -->
+        </main>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+        <footer class="bg-gray-800 text-white p-4 text-center">
+            &copy; 2025 MakersMarkt
+        </footer>
+    </div>
+</body>
 </html>
