@@ -1,13 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-bold text-2xl text-gray-900">📊 Dashboard</h2>
-            <span class="text-gray-600 text-sm">Welkom terug!</span>
-        </div>
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Dashboard') }}
+        </h2>
     </x-slot>
 
-    <div class="py-12 bg-gray-100 min-h-screen">
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
             <div class="bg-white shadow-lg rounded-xl overflow-hidden">
                 <div class="p-8">
                     <h3 class="text-xl font-semibold text-gray-800">✅ Je bent ingelogd!</h3>
@@ -38,6 +38,7 @@
                             
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
