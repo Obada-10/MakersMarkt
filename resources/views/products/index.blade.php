@@ -14,9 +14,11 @@
                    class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition">
                     ➕ Product toevoegen
                 </a>
-                @endif
-        </div>
     
+            @endif
+        </div>
+        
+    </div>
 
     <form action="{{ route('products.index') }}" method="GET" class="mb-4 flex flex-wrap gap-4">
         <select name="category" class="p-2 border rounded-lg">

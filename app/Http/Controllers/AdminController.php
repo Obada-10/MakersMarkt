@@ -4,20 +4,31 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
     // Toon de gebruikerslijst
     public function index()
     {
+        // Controleer of de ingelogde gebruiker een moderator is
+        if (Auth::user()->role !== 'moderator') {
+            return redirect('/home')->with('error', 'Je hebt geen toestemming om deze pagina te bezoeken.');
+        }
+
         // Haal alle gebruikers op, inclusief hun profielgegevens
-        $users = User::with('profile')->get();  
+        $users = User::with('profile')->get();
         return view('admin.users.index', compact('users'));
     }
 
     // Toon het gebruikersprofiel
     public function show(User $user)
     {
+        // Controleer of de ingelogde gebruiker een moderator is
+        if (Auth::user()->role !== 'moderator') {
+            return redirect('/home')->with('error', 'Je hebt geen toestemming om deze pagina te bezoeken.');
+        }
+
         // Haal het gebruikersprofiel op, inclusief profielgegevens
         $user = User::with('profile')->findOrFail($user->id);
         return view('admin.users.show', compact('user'));
@@ -26,6 +37,11 @@ class AdminController extends Controller
     // Verwijder een gebruiker
     public function destroy(User $user)
     {
+        // Controleer of de ingelogde gebruiker een moderator is
+        if (Auth::user()->role !== 'moderator') {
+            return redirect('/home')->with('error', 'Je hebt geen toestemming om deze pagina te bezoeken.');
+        }
+
         // Verwijder de gebruiker en hun gerelateerde gegevens
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'De gebruiker is succesvol verwijderd.');
@@ -34,9 +50,14 @@ class AdminController extends Controller
     // Toon het bewerk-scherm voor een gebruiker
     public function edit(User $user)
     {
+        // Controleer of de ingelogde gebruiker een moderator is
+        if (Auth::user()->role !== 'moderator') {
+            return redirect('/home')->with('error', 'Je hebt geen toestemming om deze pagina te bezoeken.');
+        }
+
         // Laad de 'profile' relatie samen met de gebruiker
         $user = User::with('profile')->findOrFail($user->id);
-        
+
         // Stuur het gebruikersobject naar de edit view
         return view('admin.users.edit', compact('user'));
     }
@@ -44,6 +65,11 @@ class AdminController extends Controller
     // Werk de gegevens van een gebruiker bij
     public function update(Request $request, User $user)
     {
+        // Controleer of de ingelogde gebruiker een moderator is
+        if (Auth::user()->role !== 'moderator') {
+            return redirect('/home')->with('error', 'Je hebt geen toestemming om deze pagina te bezoeken.');
+        }
+
         // Laad de 'profile' relatie om toegang te krijgen tot profielgegevens
         $user = User::with('profile')->findOrFail($user->id);
 

@@ -32,7 +32,8 @@
 
             <!-- Page Content -->
             <main>
-                @yield('content') <!-- Hier wordt de content geladen -->
+                {{ $slot }}
+                
             </main>
         </div>
     </body>

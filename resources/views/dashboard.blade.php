@@ -22,6 +22,11 @@
                                 <span class="text-lg">📋</span>
                                 <span class="font-medium">Bekijk alle producten</span>
                             </a>
+                            {{-- <a href="{{ route('admin.users') }}" 
+                               class="flex items-center gap-2 bg-blue-500 text-white p-4 rounded-lg shadow-md hover:bg-blue-600 transition">
+                                <span class="text-lg">📋</span>
+                                <span class="font-medium">Bekijk alle users</span>
+                            </a> --}}
 
                             @if(auth()->check() && (auth()->user()->role === 'moderator' || auth()->user()->role === 'maker'))
                                     <a href="{{ route('products.create') }}" 
