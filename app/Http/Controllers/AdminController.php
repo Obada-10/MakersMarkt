@@ -18,7 +18,8 @@ class AdminController extends Controller
     // Toon het gebruikersprofiel
     public function show(User $user)
     {
-        // Haal het gebruikersprofiel op
+        // Haal het gebruikersprofiel op, inclusief profielgegevens
+        $user = User::with('profile')->findOrFail($user->id);
         return view('admin.users.show', compact('user'));
     }
 
@@ -33,26 +34,38 @@ class AdminController extends Controller
     // Toon het bewerk-scherm voor een gebruiker
     public function edit(User $user)
     {
+        // Laad de 'profile' relatie samen met de gebruiker
+        $user = User::with('profile')->findOrFail($user->id);
+        
         // Stuur het gebruikersobject naar de edit view
         return view('admin.users.edit', compact('user'));
     }
 
     // Werk de gegevens van een gebruiker bij
     public function update(Request $request, User $user)
-{
-    // Valideer de input
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-        'role' => 'required|in:koper,maker,moderator',  // Zorg ervoor dat alleen toegestane rollen gekozen kunnen worden
-        'bio' => 'nullable|string|max:1000',
-    ]);
+    {
+        // Laad de 'profile' relatie om toegang te krijgen tot profielgegevens
+        $user = User::with('profile')->findOrFail($user->id);
 
-    // Werk de gegevens bij
-    $user->update($validated);
+        // Valideer de input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|in:koper,maker,moderator',  // Zorg ervoor dat alleen toegestane rollen gekozen kunnen worden
+            'bio' => 'nullable|string|max:1000',
+        ]);
 
-    // Optioneel: Je kan hier ook een relatie bijwerken, bijvoorbeeld de profiel bio als je die opslaat in een aparte tabel
+        // Werk de gegevens bij
+        $user->update($validated);
 
-    return redirect()->route('admin.users.index')->with('success', 'Gebruiker succesvol bijgewerkt.');
-}
+        // Optioneel: Je kan hier ook de profielgegevens bijwerken, bijvoorbeeld de profiel bio als die wordt opgeslagen in een aparte tabel
+        if ($request->has('bio')) {
+            // Bijwerken van profielinformatie als dat nodig is
+            if ($user->profile) {
+                $user->profile->update(['bio' => $request->bio]);
+            }
+        }
+
+        return redirect()->route('admin.users.index')->with('success', 'Gebruiker succesvol bijgewerkt.');
+    }
 }

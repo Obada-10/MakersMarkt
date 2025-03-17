@@ -6,7 +6,7 @@
 
     <div class="bg-gray-50 p-6 rounded-lg shadow-md mb-6">
         <div class="flex items-center space-x-6">
-            @if ($user->profile->profile_picture)
+            @if ($user->profile && $user->profile->profile_picture)
                 <img src="{{ asset('storage/' . $user->profile->profile_picture) }}" alt="Profile picture" class="w-32 h-32 rounded-full border-4 border-indigo-500">
             @else
                 <div class="w-32 h-32 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold">No Image</div>

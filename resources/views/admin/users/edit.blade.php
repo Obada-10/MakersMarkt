@@ -42,9 +42,23 @@
             @enderror
         </div>
 
-        <div class="mb-4">
+        <!-- Check of profiel bestaat voordat we proberen de afbeelding te tonen -->
+        <div class="mb-6">
+            @if ($user->profile)
+                @if ($user->profile->profile_picture)
+                    <img src="{{ asset('storage/' . $user->profile->profile_picture) }}" alt="Profile picture" class="w-32 h-32 rounded-full mt-4">
+                @else
+                    <p class="text-gray-500 text-sm mt-2">Geen profielfoto beschikbaar.</p>
+                @endif
+            @else
+                <p class="text-gray-500 text-sm mt-2">Geen profiel gevonden voor deze gebruiker.</p>
+            @endif
+        </div>
+
+        <div class="mb-6">
             <button type="submit" 
-                class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out">
+                class="w-full py-3 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out"
+                style="display: block; visibility: visible;">
                 Bijwerken
             </button>
         </div>
