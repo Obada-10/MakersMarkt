@@ -12,23 +12,30 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-
-        // $products = Product::all();
+        // Basisquery voor producten
         $query = Product::query();
-
+    
         foreach (['category', 'material'] as $filter) {
             if ($request->filled($filter)) {
                 $query->where($filter, $request->$filter);
             }
         }
+    
         if ($request->filled('production_time')) {
             $query->where('production_time', '<=', $request->production_time);
         }
-
-        $products = $query->get();
+    
+        // Haal de producten op
+        $products = $query->get()->map(function($product) {
+            // Bereken de gemiddelde beoordeling
+            $averageRating = $product->reviews->avg('rating');
+            $product->average_rating = $averageRating ? round($averageRating, 1) : 0;
+            return $product;
+        });
+    
+        // Filteropties voor de sidebar
         $filterOptions = Product::select('category', 'material', 'production_time')->distinct()->get();
-
-        // dd($products);
+    
         return view('products.index', compact('products', 'filterOptions'));
     }
 
