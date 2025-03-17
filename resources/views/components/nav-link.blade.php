@@ -9,3 +9,12 @@ $classes = ($active ?? false)
 <a {{ $attributes->merge(['class' => $classes]) }}>
     {{ $slot }}
 </a>
+<div class="links">
+    <a href="{{route('products.index')}}">Products</a>
+</div>
+
+@if (auth()->user() && auth()->user()->role === 'moderator')
+    <div class="links">
+        <a href="{{route('reports.index')}}">Reporten</a>
+    </div>
+@endif
