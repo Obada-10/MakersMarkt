@@ -64,10 +64,9 @@
                         |    Report
                         </button>
                     </form> 
-                @endif  
-                     
+                @endif    
             </li>
             <hr>
         @endforeach
-    </ul>
+    </div>
 @endsection

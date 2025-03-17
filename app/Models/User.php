@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,4 +46,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function getProfilePhotoUrlAttribute()
+{
+    return $this->profile ? asset('storage/' . $this->profile->profile_picture) : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&color=7F9CF5&background=EBF4FF';
+}
 }
