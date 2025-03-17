@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -19,5 +19,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
 Route::resource('products', ProductController::class);
+
+Route::prefix('reports')->middleware('auth')->controller(ReportController::class)->group(function()
+{
+    Route::post('/{product}', 'store')->name('reports.store');
+    Route::get('/', 'index')->name('reports.index'); 
+    Route::post('/{product}/approve', 'approve')->name('reports.approve'); 
+    Route::post('/{product}/delete', 'delete')->name('reports.delete');
+});
+
+require __DIR__.'/auth.php';
