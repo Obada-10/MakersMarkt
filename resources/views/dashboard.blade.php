@@ -23,11 +23,14 @@
                                 <span class="font-medium">Bekijk alle producten</span>
                             </a>
 
-                            <a href="{{ route('products.create') }}" 
-                               class="flex items-center gap-2 bg-green-500 text-white p-4 rounded-lg shadow-md hover:bg-green-600 transition">
-                                <span class="text-lg">➕</span>
-                                <span class="font-medium">Nieuw product toevoegen</span>
-                            </a>
+                            @if(auth()->check() && (auth()->user()->role === 'moderator' || auth()->user()->role === 'maker'))
+                                    <a href="{{ route('products.create') }}" 
+                                    class="flex items-center gap-2 bg-green-500 text-white p-4 rounded-lg shadow-md hover:bg-green-600 transition">
+                                    <span class="text-lg">➕</span>
+                                    <span class="font-medium">Nieuw product toevoegen</span>
+                                </a>
+                            @endif
+                            
                         </div>
                     </div>
                 </div>

@@ -25,10 +25,12 @@
         </a>
 
         <!-- Knop om product te bewerken -->
+        @if(auth()->check() && (auth()->user()->role === 'moderator' || auth()->user()->id === $product->user_id))
         <a href="{{ route('products.edit', $showProduct->id) }}" 
            class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition flex items-center">
             ✏️ Bewerken
         </a>
+        @endif
     </div>
 </div>
 @endsection

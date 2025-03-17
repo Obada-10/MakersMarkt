@@ -5,7 +5,10 @@
         <h3 class="text-2xl font-bold text-gray-800">📦 Alle producten</h3>
 
         <div class="flex space-x-4">
-            <a href="{{ route('dashboard') }}" class="text-red-500 font-medium hover:underline">🏠 Dashboard</a>
+            @if(auth()->check())
+                <a href="{{ route('dashboard') }}" class="text-red-500 font-medium hover:underline">🏠 Dashboard</a>
+            @endif
+        
             @if(auth()->check() && (auth()->user()->role === 'moderator' || auth()->user()->role === 'maker'))
                 <a href="{{ route('products.create') }}" 
                    class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition">
@@ -13,6 +16,7 @@
                 </a>
             @endif
         </div>
+        
     </div>
 
     <!-- 🔍 Filtersectie -->
