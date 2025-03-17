@@ -45,13 +45,7 @@
 
         
 
-        <div>
-            <label for="role">Registreren als:</label>
-            <select id="role" name="role" required>
-                <option value="maker">Maker</option>
-                <option value="koper">Koper</option>
-            </select>
-        </div>
+        
 
 
 
