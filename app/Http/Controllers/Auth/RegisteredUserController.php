@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-use App\Models\Profile;
 
+use App\Models\Profile;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -34,36 +34,30 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => ['required', 'in:maker,koper'],
         ]);
 
-
-
-
-
+        // Maak een gebruiker aan met de standaard rol 'koper'
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role, // Hier slaan we de rol op
+            'role' => 'koper', // Standaard rol is 'koper'
         ]);
 
-
-
-
-
+        // Maak het profiel aan met de juiste gegevens
         Profile::create([
             'user_id' => $user->id,
-            'name' => $user->name, 
-            'bio' => $user->role === 'maker' ? 'Ik ben een maker en deel mijn creaties!' : 'Ik ben een koper en zoek unieke producten.',
-            'profile_picture' => $user->role === 'maker' ? 'default_maker.jpg' : 'default_koper.jpg',
+            'name' => $user->name,
+            'bio' => 'Ik ben een koper en zoek unieke producten.', // Standaard bio voor koper
+            'profile_picture' => 'default_koper.jpg', // Standaard profielfoto voor koper
         ]);
 
-        
         event(new Registered($user));
 
+        // Log de gebruiker in
         Auth::login($user);
 
+        // Redirect naar de dashboard
         return redirect(route('dashboard', absolute: false));
     }
 }
