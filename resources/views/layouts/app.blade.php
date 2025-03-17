@@ -32,7 +32,14 @@
 
             <!-- Page Content -->
             <main>
-                {{ $slot }}
+
+                @if(isset($slot) && trim($slot) !== '')
+                    
+                    {{ $slot }}
+                @else
+                    
+                    @yield('content')
+                @endif
                 
             </main>
         </div>
