@@ -22,10 +22,13 @@
                                 <span class="text-lg">📋</span>
                                 <span class="font-medium">Bekijk alle producten</span>
                             </a>
+                            @if(auth()->check() && auth()->user()->role === 'moderator')
                             <a href="{{ route('admin.users.index') }}" 
-                            class="flex items-center gap-2 bg-purple-500 text-white p-4 rounded-lg shadow-md hover:bg-purple-600 transition">
-                            <span class="text-lg">👥</span>
-                            <span class="font-medium">Bekijk alle gebruikers</span>
+                               class="flex items-center gap-2 bg-purple-500 text-white p-4 rounded-lg shadow-md hover:bg-purple-600 transition">
+                                <span class="text-lg">👥</span>
+                                <span class="font-medium">Bekijk alle gebruikers</span>
+                            </a>
+                            @endif
                          </a>
 
                             @if(auth()->check() && (auth()->user()->role === 'moderator' || auth()->user()->role === 'maker'))
