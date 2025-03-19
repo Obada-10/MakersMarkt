@@ -24,6 +24,8 @@ Route::prefix('dashboard')
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        // Wachtwoord wijzigen routes
+        Route::patch('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
         
         // Product routes
         Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');

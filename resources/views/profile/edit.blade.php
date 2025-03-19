@@ -55,6 +55,50 @@
                     </div>
                 </form>
             </div>
+
+<!-- Wachtwoord wijzigen formulier -->
+<div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+    <h3 class="text-lg font-semibold text-gray-900">Change Password</h3>
+    <form method="POST" action="{{ route('profile.password.update') }}" class="mt-4">
+        @csrf
+        @method('PATCH')
+
+        <!-- Huidig wachtwoord -->
+        <div class="block mb-4">
+            <label for="current_password" class="text-sm font-medium text-gray-700">{{ __('Current Password') }}</label>
+            <input type="password" name="current_password" id="current_password" required
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            @error('current_password')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <!-- Nieuw wachtwoord -->
+        <div class="block mb-4">
+            <label for="password" class="text-sm font-medium text-gray-700">{{ __('New Password') }}</label>
+            <input type="password" name="password" id="password" required
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            @error('password')
+                <span class="text-sm text-red-600">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <!-- Bevestig nieuw wachtwoord -->
+        <div class="block mb-4">
+            <label for="password_confirmation" class="text-sm font-medium text-gray-700">{{ __('Confirm New Password') }}</label>
+            <input type="password" name="password_confirmation" id="password_confirmation" required
+                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        </div>
+
+        <!-- Update knop -->
+        <div class="flex items-center justify-end mt-4">
+            <button type="submit" class="ml-4 bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                {{ __('Update Password') }}
+            </button>
+        </div>
+    </form>
+</div>
+
         </div>
     </div>
 </x-app-layout>

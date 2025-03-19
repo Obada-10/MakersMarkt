@@ -93,4 +93,23 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+
+    /**
+ * Werk het wachtwoord van de gebruiker bij.
+ */
+public function updatePassword(Request $request): RedirectResponse
+{
+    $request->validate([
+        'current_password' => ['required', 'current_password'],
+        'password' => ['required', 'confirmed', 'min:8'],
+    ]);
+
+    // Werk het wachtwoord bij
+    $request->user()->update([
+        'password' => bcrypt($request->password),
+    ]);
+
+    return Redirect::route('profile.edit')->with('status', 'password-updated');
+}
 }
