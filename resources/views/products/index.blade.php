@@ -5,10 +5,22 @@
         <h3 class="text-2xl font-bold text-gray-800">📦 Alle producten</h3>
 
         <div class="flex space-x-4">
+            
+            <a href="{{ route('orders.basket') }}" class="text-gray-800 font-medium hover:underline relative">
+                🛒 Winkel-Mandje
+                <!-- Aantal bestellingen in een rode badge boven de winkelmandje-icoon -->
+                <span class="absolute top-[-10px] right-[-10px] bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                    {{ $orderCount }}
+                </span>
+            </a>
+
+            <a href="{{ route('orders.bestelling') }}" class="text-gray-800 font-medium hover:underline relative">
+                📦 Mijn Bestellingen
+            </a>
+            
             @if(auth()->check())
                 <a href="{{ route('dashboard') }}" class="text-red-500 font-medium hover:underline">🏠 Dashboard</a>
             @endif
-        
             @if(auth()->check() && (auth()->user()->role === 'moderator' || auth()->user()->role === 'maker'))
                 <a href="{{ route('products.create') }}" 
                    class="bg-green-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-green-600 transition">
@@ -45,44 +57,48 @@
 
     <ul>
         @foreach ($products as $product)
-            <li>
-                <a href="{{ route('products.show', $product->id)}}"><strong>{{ $product->name }}</strong><br></a>
-                {{ $product->description }}<br>
-                <span style="color: green; font-weight: bold;">€{{ number_format($product->price, 2) }}</span><br>
+            <li class="flex items-center justify-between p-4 border-b">
+                <div>
+                    <a href="{{ route('products.show', $product->id)}}" class="text-lg font-bold text-gray-800 hover:underline">{{ $product->name }}</a><br>
+                    <span class="text-gray-600">{{ $product->description }}</span><br>
+                    <span class="text-green-600 font-bold text-lg">€{{ number_format($product->price, 2) }}</span><br>
 
-<!-- Gemiddelde beoordeling en sterren -->
-<div class="rating flex items-center">
-    @for ($i = 1; $i <= 5; $i++)
-        <span class="star {{ $i <= $product->average_rating ? 'text-yellow-500' : 'text-gray-300' }} text-xl">★</span>
-    @endfor
-    <span class="ml-2">Gemiddeld: {{ $product->average_rating }} / 5</span>
+                    <!-- Gemiddelde beoordeling en sterren -->
+                    <div class="rating flex items-center mt-2">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <span class="star {{ $i <= $product->average_rating ? 'text-yellow-500' : 'text-gray-300' }} text-xl">★</span>
+                        @endfor
+                        <span class="ml-2">Gemiddeld: {{ $product->average_rating }} / 5</span>
+                        <span class="ml-4 text-sm text-gray-600">({{ $product->reviews()->count() }} reviews)</span>
+                    </div>
+                </div>
 
-    <!-- Aantal reviews tonen -->
-    <span class="ml-4 text-sm text-gray-600">({{ $product->reviews()->count() }} reviews)</span>
-</div>
-                <!-- Einde beoordeling en sterren -->
+                <div class="flex items-center space-x-4">
+                    @if(auth()->check() && (auth()->user()->role === 'moderator' || auth()->user()->id === $product->user_id))
+                        <a href="{{route('products.edit', $product->id)}}" class="text-blue-500 hover:underline">Aanpassen</a>
+                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Verwijderen?')" class="text-red-500 hover:underline">Verwijderen</button>
+                        </form>
+                    @endif  
+                    
+                    @if ($product->reports()->where('user_id', auth()->id())->exists())
+                        <p class="text-red-600 font-bold">Gerapporteerd</p>
+                    @else
+                        <form action="{{ route('reports.store', $product->id) }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" onclick="return confirm('Product reportern?')" class="text-red-800 font-bold hover:underline">Report</button>
+                        </form> 
+                    @endif  
 
-                @if(auth()->check() && (auth()->user()->role === 'moderator' || auth()->user()->id === $product->user_id))
-                    <a href="{{route('products.edit', $product->id)}}" class="text-blue-500 hover:underline">Aanpassen</a>
-                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('orders.basket') }}" method="POST">
                         @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Verwijderen?')" class="text-red-500 hover:underline">Verwijderen</button>
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition transform hover:scale-105">+ Bestel</button>
                     </form>
-                @endif  
-                
-                @if ($product->reports()->where('user_id', auth()->id())->exists())
-                    <p>Product geroporteerd</p>
-                @else
-                    <form action="{{ route('reports.store', $product->id) }}" method="POST" style="display:inline;">
-                        @csrf
-                        <button type="submit" onclick="return confirm('Product reportern?')" class="text-red-800 font-bold hover:underline">
-                        |    Report
-                        </button>
-                    </form> 
-                @endif  
+                </div>
             </li>
-            <hr>
         @endforeach
     </ul>
 @endsection

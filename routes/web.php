@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,7 +48,20 @@ Route::prefix('dashboard')
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index'); // Openbaar
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
-    
+Route::get('/orders/basket', [ProductController::class, 'basket'])->name('orders.basket');
+
+Route::get('/orders/basket', [OrderController::class, 'basket_content'])->name('orders.basket');
+Route::post('/orders/basket', [OrderController::class, 'store'])->name('baskets.store');
+
+
+Route::get('/orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+Route::get('/orders/checkout', [OrderController::class, 'showCheckout'])->name('orders.checkout');  // Voor het tonen van de afrekenpagina
+
+Route::post('/orders/checkout', [OrderController::class, 'processCheckout'])->name('orders.processCheckout');  // Voor het verwerken van de bestelling
+
+Route::get('/orders/bestelling', [OrderController::class, 'bestelling'])->name('orders.bestelling');
+Route::patch('/orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
 
 Route::prefix('reports')->middleware('auth')->controller(ReportController::class)->group(function()
 {
