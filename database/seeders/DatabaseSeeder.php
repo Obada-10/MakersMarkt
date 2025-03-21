@@ -24,11 +24,13 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             ProfilesTableSeeder::class,
             ProductsTableSeeder::class,
+            BasketSeeder::class,
             OrdersTableSeeder::class,
             ReviewsTableSeeder::class,
             CreditsTableSeeder::class,
             ModerationsTableSeeder::class,
             NotificationsTableSeeder::class,
+
         ]);
     }
 }

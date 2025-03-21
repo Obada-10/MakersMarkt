@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Basket;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Order;
 
 class ProductController extends Controller
 {
@@ -14,7 +17,8 @@ class ProductController extends Controller
     {
         // Basisquery voor producten
         $query = Product::query();
-    
+        $basket = basket::where('user_id', Auth::id())->get();
+        
         foreach (['category', 'material'] as $filter) {
             if ($request->filled($filter)) {
                 $query->where($filter, $request->$filter);
@@ -35,8 +39,9 @@ class ProductController extends Controller
     
         // Filteropties voor de sidebar
         $filterOptions = Product::select('category', 'material', 'production_time')->distinct()->get();
-    
-        return view('products.index', compact('products', 'filterOptions'));
+        $orderCount = $basket->count();
+
+        return view('products.index', compact('products', 'filterOptions', 'orderCount'));
     }
 
     /**
