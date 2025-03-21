@@ -24,7 +24,7 @@ class ReportController extends Controller
 
     public function index()
     {
-        $products = Product::withCount('reports')->having('reports_count', '>=', 3)->get();
+        $products = Product::withCount('reports')->having('reports_count', '>=', 1)->get();
         return view('reports.index', compact('products'));
     }
 
