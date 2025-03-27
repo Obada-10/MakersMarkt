@@ -17,8 +17,6 @@ class Order extends Model
         'postal_code', 'address', 'street_name', 'city', 'total_price'
     ];
     
-
-    // Define the correct relationship
     public function products()
     {
         return $this->belongsToMany(Product::class, 'order_product');

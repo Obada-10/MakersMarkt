@@ -14,7 +14,6 @@ class Profile extends Model
         'profile_picture',
     ];
 
-    // Relatie met de User model (belongsTo)
     public function user()
     {
         return $this->belongsTo(User::class);

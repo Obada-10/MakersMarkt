@@ -11,13 +11,11 @@ class Review extends Model
 
     protected $fillable = ['user_id', 'product_id', 'rating', 'comment'];
 
-    // Review hoort bij een user (koper)
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Review hoort bij een product
     public function product()
     {
         return $this->belongsTo(Product::class);

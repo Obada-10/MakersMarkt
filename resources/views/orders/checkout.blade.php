@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Afrekenen</title>
     <style>
-        /* Reset some default styles */
         body, h1, form, label, input, button {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
         }
-
-        /* Basic layout and design */
+        
         body {
             background-color: #f7f7f7;
             display: flex;

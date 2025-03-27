@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        // Basisquery voor producten
+
         $query = Product::query();
         $basket = basket::where('user_id', Auth::id())->get();
         
@@ -29,15 +29,12 @@ class ProductController extends Controller
             $query->where('production_time', '<=', $request->production_time);
         }
     
-        // Haal de producten op
         $products = $query->get()->map(function($product) {
-            // Bereken de gemiddelde beoordeling
             $averageRating = $product->reviews->avg('rating');
             $product->average_rating = $averageRating ? round($averageRating, 1) : 0;
             return $product;
         });
     
-        // Filteropties voor de sidebar
         $filterOptions = Product::select('category', 'material', 'production_time')->distinct()->get();
         $orderCount = $basket->count();
 

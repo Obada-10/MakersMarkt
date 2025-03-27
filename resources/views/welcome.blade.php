@@ -12,9 +12,15 @@
     <!-- Header -->
     <header class="bg-white shadow">
         <div class="container mx-auto px-4 py-6 flex justify-between items-center">
-            <h1 class="text-4xl font-extrabold text-gray-900">
-                Makers<span class="text-blue-600 shadow-lg transform rotate-[-3deg] inline-block">Markt</span>
-            </h1>
+            <div class="flex items-center space-x-2">
+                <img src="{{ asset('images/logo.png') }}" 
+                    alt="Logo" 
+                    class="h-12 w-auto object-contain transition duration-300 hover:scale-105 hover:drop-shadow-md" />
+            
+                <h1 class="text-4xl font-extrabold text-gray-900">
+                    Makers<span class="text-blue-600 shadow-lg transform rotate-[-3deg] inline-block">Markt</span>
+                </h1>
+            </div>
             
             @if (Route::has('login'))
                 <nav class="flex gap-4 items-center">

@@ -13,12 +13,10 @@ class ReportController extends Controller
         if ($product->reports()->where('user_id', auth()->id())->exists()) {
             return redirect()->back()->with('error', 'Je hebt dit product al gerapporteerd.');
         }
-
         Report::create([
             'user_id' => auth()->id(),
             'product_id' => $product->id,
         ]);
-
         return redirect()->back()->with('product geroporteerd');
     }
 
@@ -39,6 +37,4 @@ class ReportController extends Controller
         $product->delete();
         return redirect()->back()->with('Ongepast product verwijderd');
     }
-
-
 }
